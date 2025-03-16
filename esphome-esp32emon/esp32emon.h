@@ -18,18 +18,18 @@
 #define V2 34 //Set to V1 if using only one voltage meter
 #define V3 34 //Set to V1 if using only one voltage meter
 
-#define I1 35
+#define I1 33
 #define I2 32
-#define I3 33
+#define I3 36
 
 // Calibration for voltage sensors CV and current sensors CI
-#define CV1 510
-#define CV2 510 //Set to CV1 if using only one voltage meter
-#define CV3 510 //Set to CV1 if using only one voltage meter
+#define CV1 286.22
+#define CV2 286.22 //Set to CV1 if using only one voltage meter
+#define CV3 286.22 //Set to CV1 if using only one voltage meter
 
-#define CI1 96.72
-#define CI2 94.93
-#define CI3 1
+#define CI1 90
+#define CI2 90
+#define CI3 89
 
 class MyPowerSensor : public PollingComponent, public Sensor
 {
@@ -40,7 +40,7 @@ public:
 
   EnergyMonitor emon1; // Phase 1
   EnergyMonitor emon2; // Phase 2
-  // EnergyMonitor emon3; //Phase 3
+  EnergyMonitor emon3; //Phase 3
 
   // Phase 1 sensors
   Sensor *realpower_sensor1 = new Sensor();
@@ -57,13 +57,13 @@ public:
   Sensor *current_sensor2 = new Sensor();
 
   // Phase 3 sensors
-  /*
+
    Sensor *realpower_sensor3 = new Sensor();
    Sensor *apparentpower_sensor3 = new Sensor();
    Sensor *powerfactor_sensor3 = new Sensor();
    Sensor *supplyvoltage_sensor3 = new Sensor();
    Sensor *current_sensor3 = new Sensor();
-   */
+
 
   // Total sensors
   Sensor *realpower_sensor_total = new Sensor();
@@ -101,11 +101,11 @@ public:
     emon2.voltage(V2, CV2, 1.732); // Voltage: input pin, calibration, phase_shift
     emon2.current(I2, CI2);        // Current: input pin, calibration.
 
-    /*
+
     //Phase 3 sensors
     emon3.voltage(V3, CV3, 1.732);  // Voltage: input pin, calibration, phase_shift
     emon3.current(I3, CI3);       // Current: input pin, calibration.
-    */
+
   }
 
   void update() override
@@ -141,7 +141,7 @@ public:
 
     esp_task_wdt_reset(); // Things can take some time... this ensures the watchdog is aware
 
-    /*
+
      // Phase 3
      emon3.calcVI(CROSSINGS,2000);
      float realPower3 = emon3.realPower;
@@ -154,7 +154,7 @@ public:
      supplyvoltage_sensor3->publish_state(supplyVoltage3);
      float current3 = emon3.Irms;
      current_sensor3->publish_state(current3);
-     */
+
 
     /*
     // Totals 1 phase - uncomment only this block if you are reading one phase
@@ -165,7 +165,7 @@ public:
     float current_total = emon1.Irms;
     current_sensor_total->publish_state(current_total);
     */
-
+    /*
     // Totals 2 phases - uncomment only this block if you are reading two phases
     float realPower_total = emon1.realPower + emon2.realPower;
     realpower_sensor_total->publish_state(realPower_total);
@@ -173,8 +173,8 @@ public:
     apparentpower_sensor_total->publish_state(apparentPower_total);
     float current_total = emon1.Irms + emon2.Irms;
     current_sensor_total->publish_state(current_total);
+     */
 
-    /*
      // Totals 3 phases - uncomment only this block if you are reading three phases
      float realPower_total = emon1.realPower + emon2.realPower + emon3.realPower;
      realpower_sensor_total->publish_state(realPower_total);
@@ -182,6 +182,6 @@ public:
      apparentpower_sensor_total->publish_state(apparentPower_total);
      float current_total = emon1.Irms + emon2.Irms + emon3.Irms;
      current_sensor_total->publish_state(current_total);
-     */
+
   }
 };

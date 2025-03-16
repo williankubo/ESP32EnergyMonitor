@@ -33,7 +33,8 @@ api:
 
 # Enable OTA updates
 ota:
-  password: !secret ota_password
+ - platform: esphome
+   password: !secret ota_password
 
 # Wifi configuration
 wifi:
@@ -104,10 +105,10 @@ sensor:
       //return {my_sensor->realpower_sensor1, my_sensor->apparentpower_sensor1, my_sensor->powerfactor_sensor1, my_sensor->supplyvoltage_sensor1, my_sensor->current_sensor1, my_sensor->realpower_sensor_total, my_sensor->apparentpower_sensor_total, my_sensor->current_sensor_total};
 
       // 2-Phases - uncomment only the following line for 2 phase measurements
-      return {my_sensor->realpower_sensor1, my_sensor->apparentpower_sensor1, my_sensor->powerfactor_sensor1, my_sensor->supplyvoltage_sensor1, my_sensor->current_sensor1, my_sensor->realpower_sensor2, my_sensor->apparentpower_sensor2, my_sensor->powerfactor_sensor2, my_sensor->supplyvoltage_sensor2, my_sensor->current_sensor2, my_sensor->realpower_sensor_total, my_sensor->apparentpower_sensor_total, my_sensor->current_sensor_total};
+      //return {my_sensor->realpower_sensor1, my_sensor->apparentpower_sensor1, my_sensor->powerfactor_sensor1, my_sensor->supplyvoltage_sensor1, my_sensor->current_sensor1, my_sensor->realpower_sensor2, my_sensor->apparentpower_sensor2, my_sensor->powerfactor_sensor2, my_sensor->supplyvoltage_sensor2, my_sensor->current_sensor2, my_sensor->realpower_sensor_total, my_sensor->apparentpower_sensor_total, my_sensor->current_sensor_total};
 
       // 3-Phases - uncomment only the following line for 3 phase measurements
-      //return {my_sensor->realpower_sensor1, my_sensor->apparentpower_sensor1, my_sensor->powerfactor_sensor1, my_sensor->supplyvoltage_sensor1, my_sensor->current_sensor1, my_sensor->realpower_sensor2, my_sensor->apparentpower_sensor2, my_sensor->powerfactor_sensor2, my_sensor->supplyvoltage_sensor2, my_sensor->current_sensor2, my_sensor->realpower_sensor3, my_sensor->apparentpower_sensor3, my_sensor->powerfactor_sensor3, my_sensor->supplyvoltage_sensor3, my_sensor->current_sensor3, my_sensor->realpower_sensor_total, my_sensor->apparentpower_sensor_total, my_sensor->current_sensor_total};
+      return {my_sensor->realpower_sensor1, my_sensor->apparentpower_sensor1, my_sensor->powerfactor_sensor1, my_sensor->supplyvoltage_sensor1, my_sensor->current_sensor1, my_sensor->realpower_sensor2, my_sensor->apparentpower_sensor2, my_sensor->powerfactor_sensor2, my_sensor->supplyvoltage_sensor2, my_sensor->current_sensor2, my_sensor->realpower_sensor3, my_sensor->apparentpower_sensor3, my_sensor->powerfactor_sensor3, my_sensor->supplyvoltage_sensor3, my_sensor->current_sensor3, my_sensor->realpower_sensor_total, my_sensor->apparentpower_sensor_total, my_sensor->current_sensor_total};
     sensors:
       #Phase 1 sensors
       - name: "Real Power P1"
@@ -277,89 +278,89 @@ sensor:
                 return 0;
                 }   
 
-      #  #Phase 3 sensors
-      # - name: "Real Power P3"
-      #   device_class: "power"
-      #   unit_of_measurement: W
-      #   state_class: "measurement"
-      #   accuracy_decimals: 1
-      #   internal: false
-      #   filters:
-      #     - lambda: |-
-      #         //Avoid corrupting integration sensors
-      #         if(!isinf(x) && !isnan(x) && x >= 0 && x <= 10e6)
-      #           {
-      #           return x;
-      #           }
-      #         else
-      #           {
-      #           return 0;
-      #           }   
-      # - name: "Apparent Power P3"
-      #   device_class: "apparent_power"
-      #   unit_of_measurement: VA
-      #   state_class: "measurement"
-      #   accuracy_decimals: 1
-      #   internal: false
-      #   filters:
-      #     - lambda: |-
-      #         //Avoid corrupting integration sensors
-      #         if(!isinf(x) && !isnan(x) && x >= 0 && x <= 10e6)
-      #           {
-      #           return x;
-      #           }
-      #         else
-      #           {
-      #           return 0;
-      #           }   
-      # - name: "Power Factor P3"
-      #   device_class: "power_factor"
-      #   state_class: "measurement"
-      #   accuracy_decimals: 2
-      #   internal: false
-      #   filters:
-      #     - lambda: |-
-      #         //Avoid corrupting integration sensors
-      #         if(!isinf(x) && !isnan(x) && x >= 0 && x <= 10e6)
-      #           {
-      #           return x;
-      #           }
-      #         else
-      #           {
-      #           return 0;
-      #           }   
-      # - name: "Voltage P3"
-      #   device_class: "voltage"
-      #   unit_of_measurement: V
-      #   accuracy_decimals: 1
-      #   internal: false
-      #   filters:
-      #     - lambda: |-
-      #         //Avoid corrupting integration sensors
-      #         if(!isinf(x) && !isnan(x) && x >= 0 && x <= 10e6)
-      #           {
-      #           return x;
-      #           }
-      #         else
-      #           {
-      #           return 0;
-      #           }   
-      # - name: "Current P3"
-      #   device_class: "current"
-      #   unit_of_measurement: A
-      #   accuracy_decimals: 1
-      #   internal: false
-      #   filters:
-      #     - lambda: |-
-      #         //Avoid corrupting integration sensors
-      #         if(!isinf(x) && !isnan(x) && x >= 0 && x <= 10e6)
-      #           {
-      #           return x;
-      #           }
-      #         else
-      #           {
-      #           return 0;
-      #           }  
+        #Phase 3 sensors
+      - name: "Real Power P3"
+        device_class: "power"
+        unit_of_measurement: W
+        state_class: "measurement"
+        accuracy_decimals: 1
+        internal: false
+        filters:
+          - lambda: |-
+              //Avoid corrupting integration sensors
+              if(!isinf(x) && !isnan(x) && x >= 0 && x <= 10e6)
+                {
+                return x;
+                }
+              else
+                {
+                return 0;
+                }   
+      - name: "Apparent Power P3"
+        device_class: "apparent_power"
+        unit_of_measurement: VA
+        state_class: "measurement"
+        accuracy_decimals: 1
+        internal: false
+        filters:
+          - lambda: |-
+              //Avoid corrupting integration sensors
+              if(!isinf(x) && !isnan(x) && x >= 0 && x <= 10e6)
+                {
+                return x;
+                }
+              else
+                {
+                return 0;
+                }   
+      - name: "Power Factor P3"
+        device_class: "power_factor"
+        state_class: "measurement"
+        accuracy_decimals: 2
+        internal: false
+        filters:
+          - lambda: |-
+              //Avoid corrupting integration sensors
+              if(!isinf(x) && !isnan(x) && x >= 0 && x <= 10e6)
+                {
+                return x;
+                }
+              else
+                {
+                return 0;
+                }   
+      - name: "Voltage P3"
+        device_class: "voltage"
+        unit_of_measurement: V
+        accuracy_decimals: 1
+        internal: false
+        filters:
+          - lambda: |-
+              //Avoid corrupting integration sensors
+              if(!isinf(x) && !isnan(x) && x >= 0 && x <= 10e6)
+                {
+                return x;
+                }
+              else
+                {
+                return 0;
+                }   
+      - name: "Current P3"
+        device_class: "current"
+        unit_of_measurement: A
+        accuracy_decimals: 1
+        internal: false
+        filters:
+          - lambda: |-
+              //Avoid corrupting integration sensors
+              if(!isinf(x) && !isnan(x) && x >= 0 && x <= 10e6)
+                {
+                return x;
+                }
+              else
+                {
+                return 0;
+                }  
 
       #Total sensors
       - name: "Total Real Power"

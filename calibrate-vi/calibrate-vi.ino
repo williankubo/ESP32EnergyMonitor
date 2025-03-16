@@ -24,22 +24,22 @@
 #define V2 34
 #define V3 34
 
-#define I1 35
+#define I1 33
 #define I2 32
-#define I3 33
+#define I3 36
 
 // Calibration settings (allways start with 1000)
-#define CV1 1000
-#define CV2 1000
-#define CV3 1000
+#define CV1 286.22
+#define CV2 286.22
+#define CV3 286.22
 
-#define CI1 1000
-#define CI2 1000
-#define CI3 1000
+#define CI1 90
+#define CI2 90
+#define CI3 89
 
 EnergyMonitor emon1; // Phase 1
 EnergyMonitor emon2; // Phase 2
-// EnergyMonitor emon3; //Phase 3
+EnergyMonitor emon3; //Phase 3
 
 void setup()
 {
@@ -71,8 +71,8 @@ void setup()
   emon2.current(I2, CI2);        // Current: input pin, calibration.
 
   // Phase 3
-  // emon3.voltage(V3, CV3, 1.732);  // Voltage: input pin, calibration, phase_shift
-  // emon3.current(I3, CI3);       // Current: input pin, calibration.
+  emon3.voltage(V3, CV3, 1.732);  // Voltage: input pin, calibration, phase_shift
+  emon3.current(I3, CI3);       // Current: input pin, calibration.
 
 }
 
@@ -111,7 +111,7 @@ void loop()
   Serial.print(", I2: ");
   Serial.println(Irms2);
 
- /* 
+  
   // Phase 3
   emon3.calcVI(120, 2000); // Calculate all. No.of half wavelengths (crossings), time-out
   // emon2.serialprint();           // Print out all variables (realpower, apparent power, Vrms, Irms, power factor)
@@ -126,5 +126,5 @@ void loop()
   Serial.print(supplyVoltage3);
   Serial.print(", I3: ");
   Serial.println(Irms3);
-  */
+
 }
