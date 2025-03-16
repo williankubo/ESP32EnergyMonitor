@@ -1,0 +1,61 @@
+esphome:
+  name: eshome-esp32-validation
+  friendly_name: eshome-esp32-validation
+  includes:
+    - emonlib/EmonLib.h
+    - emonlib/EmonLib.cpp
+    - esp32emon.h
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+#  encryption:
+#   key: "Cmh3ZFougMhbVamfQkEdW+G4pRLlBbUfhQzGQsOx9EY="
+
+ota:
+ - platform: esphome
+   password: "b43a0b40fffd64bfc477060f4a750c75"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Eshome-Esp32-Validation"
+    password: "w7TNQjZsiEDk"
+
+captive_portal:
+
+# Timers configuration
+time:
+  - platform: sntp
+    id: sntp_time1
+    on_time:
+      # Every Month at specified day
+      - seconds: 0
+        minutes: 0
+        hours: 0
+        days_of_month: 1
+        then:
+          - sensor.integration.reset: total_energy_month #Reset power integrator
+      # Every Week at specified day
+      - seconds: 0
+        minutes: 0
+        hours: 0
+        days_of_week: MON
+        then:
+          - sensor.integration.reset: total_energy_week #Reset power integrator
+      # Every Day at specified hour
+      - seconds: 0
+        minutes: 0
+        hours: 0
+        then:
+          - sensor.integration.reset: total_energy_day #Reset power integrator
